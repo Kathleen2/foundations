@@ -1,0 +1,6 @@
+c:\source\foundations\HelloWashington\bin\Debug\HelloWashington.exe.config
+c:\source\foundations\HelloWashington\obj\Debug\HelloWashington.csprojResolveAssemblyReference.cache
+c:\source\foundations\HelloWashington\bin\Debug\HelloWashington.exe
+c:\source\foundations\HelloWashington\bin\Debug\HelloWashington.pdb
+c:\source\foundations\HelloWashington\obj\Debug\HelloWashington.exe
+c:\source\foundations\HelloWashington\obj\Debug\HelloWashington.pdb
