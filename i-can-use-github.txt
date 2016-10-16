@@ -2,7 +2,7 @@
 
 static void Main() 
         {
-            Console.WriteLine("Hello Kathleen! This is ROG, your new computer");
+            Console.WriteLine("Hello Kathleen. This is ROG, your new computer");
 			Console.WriteLine("Please give me a better name.");
 			Console.WriteLine("Soon!");	
 			
