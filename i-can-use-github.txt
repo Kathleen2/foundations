@@ -2,8 +2,10 @@
 
 static void Main() 
         {
-            Console.WriteLine("Hello Kathleen!");
-
+            Console.WriteLine("Hello Kathleen! This is ROG, your new computer");
+			Console.WriteLine("Please give me a better name.");
+			Console.WriteLine("Soon!");	
+			
             // Keep the console window open in debug mode.
             Console.WriteLine("Press any key to exit.");
             Console.ReadKey();
