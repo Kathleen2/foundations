@@ -1,5 +1,9 @@
-// Kathleen Kaynor Notes
+// Kathleen Kaynor's new computer
 
+using System;
+
+class newComputer
+{
 static void Main() 
         {
             Console.WriteLine("Hello Kathleen. This is ROG, your new computer");
@@ -10,3 +14,4 @@ static void Main()
             Console.WriteLine("Press any key to exit.");
             Console.ReadKey();
         }
+}
