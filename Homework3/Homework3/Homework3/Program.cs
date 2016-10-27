@@ -1,40 +1,67 @@
-﻿/* Convert time entered in seconds to time displayed in days, hours, minutes, and any remaining seconds */
-// 1 day = 86400;
+﻿// Homework 3 Optional
+
+/* Convert time entered in seconds to time displayed in days, hours, minutes, and any remaining seconds */
+// 1 day = 86400 seconds;
 // 1 hour = 3600 seconds
-// 1 mins = 60 seconds\
+// 1 minute = 60 seconds
 
 using System;
 
-    class TestTime
-
+class TestTime
+{
+    static void Main()
     {
-        static void Main()
+        while (true)
         {
-        //int days = 0;
-        //int hours = 0;
-        //int mins = 0;
-        //int secs = 0;
+            //int days = 04294967295
+            //int hours = 0;
+            //int mins = 0;
+            //int secs = 0;
 
-        Console.Write("Please write a large number of seconds: ");
+            Console.Write("Please write a large number of seconds between 1 and 4,294,967,295: ");
 
-        string tSecs = Console.ReadLine();
+            string tSecs = Console.ReadLine();
 
-        int x = int.Parse(tSecs);
+            uint x = uint.Parse(tSecs);
 
-        //Console.ReadLine();
-
-        if (x >= 86400)
+            if (x >= 86400)
             {
-            int days = (x / 86400);
-            int rsecs = (x % 86400);
-            int hours = (rsecs/3600);
-            int secs = (rsecs % 3600);
+                uint days = (x / 86400);
+                uint rsecs = (x % 86400);
+                uint hours = (rsecs / 3600);
+                rsecs = (rsecs % 3600);
+                uint mins = (rsecs / 60);
 
-            Console.WriteLine("You wrote {0} total seconds.", tSecs);
-            Console.WriteLine("That is {0} days, {1} hours, and {3} seconds.", days, hours, secs);
-            Console.ReadLine();
+                Console.WriteLine("You wrote {0:N} total seconds.", tSecs);
+                Console.WriteLine("That is {0} days, {1} hours, {2} minutes, and {3} seconds.", days, hours, mins, rsecs);
             }
 
+            if (x >= 3600 && x < 86400)
+            {
+                uint days = 0;
+                uint hours = (x / 3600);
+                uint rsecs = (x % 3600);
+                uint mins = (rsecs / 60);
+                rsecs = (rsecs % 60);
 
-        }
-    }
+                Console.WriteLine("You wrote {0} total seconds.", tSecs);
+                Console.WriteLine("That is {0} days, {1} hours, {2} minutes, and {3} seconds.", days, hours, mins, rsecs);
+            }
+
+            if (x >= 60 && x < 3600)
+            {
+                uint days = 0;
+                uint hours = 0;
+                uint mins = (x / 60);
+                uint rsecs = (x % 60);
+
+                Console.WriteLine("You wrote {0} total seconds.", tSecs);
+                Console.WriteLine("That is {0} days, {1} hours, {2} minutes, and {3} seconds.", days, hours, mins, rsecs);
+            }
+
+            Console.ReadLine();
+
+        }// end of while true
+
+    }  // end of Main
+}  // end of class 
