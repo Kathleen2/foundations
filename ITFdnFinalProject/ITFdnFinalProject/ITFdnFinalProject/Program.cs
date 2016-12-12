@@ -9,28 +9,31 @@
 // 1. Struct DONE
 // 2. Menu choices 1-5 DONE
 // 3. Basic format the console list output DONE
-//  Prevent duplicates of ItemIDNo  DONE
-//  Figure out how to manage the FormatException errors when values can't be parsed to an int
+//  Enhancement: Prevent duplicates of ItemIDNo  DONE
+//  Figure out how to manage the menu FormatException errors when values can't be parsed to an int
 //  try catch {} ???
-//  Ensure the menu string can convert to an int between 1 and 5
-//  Enhance my testing fill in array with a current inventory before the menu runs DONE
+//  Enhancement: Ensure the menu string can convert to an int between 1 and 5
+//  Enhancement: fill in array with a current inventory before the menu runs DONE
 // 4. case 1 - Add case and add several items - DONE
-//      not sure if the quantity on hand should be an add item.
-//      I would not store anything that can be calculated but in this case i will since no database.
-// 5. write all the cases with minumum code
+//      Decided not to ask for values that can be calculated.
+// 5. write all cases with minumum code, stop messing with the format exception error
 // 6. case 4 - list items is DONE
 // 7. case 3 - delete item, is DONE
-// 8. case 2 - change item, 
-// 9. case 5 -  quit  
-// 10. default code
-//    Enhance formatting on console list header and underlines DONE
-//    Enhance array by making it dynamic  
-//    Enhance delete code list inventory for user before the delete option
-//    Enhance change code list inventory for user before the delete option
+// 8. case 2 - change item,  is DONE
+// 9. case 5 -  quit is DONE
+// 10. default code is DONE
+//    Enhancement: formatting on console list header and underlines is DONE
+//    Enhancement: make the array dynamic. Can't figure this out.
+//      Stack with one type but how to use in a Struct array?
+//    Enhancement: list inventory for user before the change option is DONE
+//    Enhancement: list inventory for user before the delete option is DONE
+
+// Final Testing:
+// All Menu item 1 through 5 work as expected, except format validation
 
 
 using System;
-using System.Collections.Generic;
+//using System.Collections.Generic;
 //using System.Linq;
 //using System.Text;
 //using System.Threading.Tasks;
@@ -40,7 +43,6 @@ namespace ITFdnFinalProject
     struct ItemData
     {
         public int itemIDNo;
-
         public string sDescription;
         public double dblPricePerItem;
         public int iQuantityOnHand;
@@ -60,7 +62,13 @@ namespace ITFdnFinalProject
             // create an array of your ItemData struct
             ItemData[] itemdata = new ItemData[15];
 
-            // prefill array with current inventory - hard code at least for further testing:
+            /**************************************************************/
+            /***                   Prefill Array items                  ***/
+            /***          Comment out to test if (icount == 0)          ***/
+            /**************************************************************/
+
+            // A current inventory - for testing:
+
             itemdata[0].itemIDNo = 1;
             itemdata[0].sDescription = "Coffee, Cuban 2 lb";
             itemdata[0].dblPricePerItem = 15.00;
@@ -133,6 +141,10 @@ namespace ITFdnFinalProject
 
             icount = icount + 1;
 
+            /**************************************************************/
+            /***               End of Prefill Array items               ***/
+            /**************************************************************/
+
             // use a never ending loop that shows the user what options they can select 
             // as long as no one Quits, continue the inventory update
             // in that loop, show what user can select from the list
@@ -149,14 +161,70 @@ namespace ITFdnFinalProject
                 Console.Write("Please choose an option number from this list (1, 2, 3, 4, or 5): ");
 
                 // read the user's input and then create what case it falls
-                string strx = Console.ReadLine();   // read user's input to get the option number
+                string strx = Console.ReadLine();
+
+                /**************************************************************/
+                /***                Input Validation Attempts               ***/
+                /**************************************************************/
+
+                //// Trying input validation to prevent the Format Exception error
+                //// check string length
+                //int strlength = (strx.Length);
+                //bool bparse = false;
+
+                //if (strlength == 1)
+                //{
+                //    bparse = true;
+
+                //}
+                ////else
+                ////{
+                ////    bparse = false;
+                ////}
+
+                //// check ascii values
+                //// The characters '1' through '5' equal ascii 49 through 53, if i need it 0 is ascii 48
+                //// I have not found any way to do an SQL IN() so I went to ascii values
+                //// The other option is regex but that's not learning C#!
+                //char ch = strx[0];
+                //int ascii = (int)ch;
+
+                //if (bparse == true)
+                //{
+                //    if (ascii == 49 || ascii == 50 || ascii == 51 || ascii == 52 || ascii == 53)
+                //    {
+                //        bparse = true;
+                //    }
+                //    else
+                //    {
+                //        bparse = false;
+                //        // should go to case default
+                //    }
+                //}
+
+                //// if it won't parse send a console message
+                //// should go to case default but I will just repeat the message
+
+                //if (bparse == false)  // send the default try again message
+                //{
+                //    Console.Write("Invalid Option, try again! Please enter one number between 1 and 5.\n\n");
+                //    break;
+                //}
+
+                /******************************************************************/
+                /***             End of Input Validation Attempts               ***/
+                /******************************************************************/
 
                 int optx = int.Parse(strx); // convert the given string to integer to match our case types shown below
 
                 Console.WriteLine(); // provide an extra blank line on screen
-
+               
                 switch (optx)
                 {
+                    /********************************************/
+                    /***          case 1 Add an item          ***/
+                    /********************************************/
+
                     case 1: // add an item to the list if this option is selected
                         {
                             // If Add is chosen, initialize the array spot and use a function to add the itemIDNo first?:
@@ -164,22 +232,26 @@ namespace ITFdnFinalProject
                             // This is a new itemIDNo not saved to the array yet.
                             // Look for a matching itemIDNo to prevent a duplicate
 
-                            Console.Write("ID Number:  ");
-                            string stridnum = Console.ReadLine();
-                            int idnum = int.Parse(stridnum);
-                            //bool fDuplicate = false;
-                            
-                            for (int x = 0; x < icount; x++)
+                            int idnum = 0;
+
+                            while (idnum == 0)
                             {
-                                if (itemdata[x].itemIDNo == idnum)
-                                {
-                                    Console.WriteLine("Enter a different Item ID number.{0} is already entered.", itemdata[x].itemIDNo);
-                                }
                                 Console.Write("ID Number:  ");
-                                stridnum = Console.ReadLine();
+                                string stridnum = Console.ReadLine();
                                 idnum = int.Parse(stridnum);
-                            }
-                            
+
+                                for (int x = 0; x < icount; x++)
+                                {
+                                    if (itemdata[x].itemIDNo == idnum)
+                                    {
+                                        Console.WriteLine("Enter a different Item ID number. \"{0}\" is already entered.", itemdata[x].itemIDNo);
+                                        idnum = 0;
+                                     } // end if
+
+                                 } // end for loop
+                            } // end while loop
+                       
+
                             // Description: screen input
                             Console.Write("Description:  ");
                             string desc = Console.ReadLine();
@@ -190,7 +262,6 @@ namespace ITFdnFinalProject
                             double dprice = double.Parse(strprice);
 
                             // Quantity on Hand: 
-                            // Seems like I should calculate this, not ask the ask the user
                             Console.Write("Quantity on hand:  ");
                             string striquant = Console.ReadLine();
                             int iquant = int.Parse(striquant);
@@ -201,11 +272,11 @@ namespace ITFdnFinalProject
                             double dcost = (dprice * 0.5);
                             Console.Write("Our Cost per Item (50% of Price) = {0}\n", dcost);
 
-                            // Value of Item: business meaning? calculate cost * quantity? or price * quantity?
+                            // Value of Item: 
                             double dvalue = (dcost * iquant);
                             Console.Write("Value of Item (Cost X Quantity on Hand) = {0}\n", dvalue);
 
-                            Console.WriteLine(); // provide an extra blank line. Switch to \n when I add the last menu code.
+                            Console.WriteLine(); // provide an extra blank line.
 
                             // Store the data in the inventory:
                             // It will go to the end of the array
@@ -219,38 +290,115 @@ namespace ITFdnFinalProject
                             icount = icount + 1;
 
                             break;
+
                         }  // End of case 1
 
+                    /***********************************************/
+                    /***          case 2 Change an item          ***/
+                    /***********************************************/
 
+                    case 2: //change items in the list if this option is selected
+                            // No changes to the item id allowed!
+                        {
+                            // first check if there are any items in the inventory
+                            if (icount == 0)
+                            {
+                                Console.WriteLine("There are 0 items in the inventory");
 
-                    //case 2: //change items in the list if this option is selected
-                    //        // No changes to the item id allowed!
-                    //    {
-                    //    Console.Write("Please enter an item ID No:");
-                    //    string strchgid = Console.ReadLine();
-                    //    int chgid = int.Parse(strchgid);
-                    //    bool fFound = false;
+                            } // end of if no items in inventory 
 
-                    //        for (int x = 0; x < icount; x++)
-                    //        {
-                    //            if (itemprop[x].itemIDNo == chgid)
-                    //            {
-                    //                fFound = true;
-                    //                // code to show what has to happen if the item in the list is found
-                    //                // reset the count to show a new count for your list 
-                    //                // (Note: your list is now increased by one item)
-                    //            }
-                    //        }
+                            else // if icount != 0, and the inventory has items
+                            {
+                                // Display all items in the inventory
+                                Console.WriteLine("            All Items in Current Inventory           ");
+                                Console.WriteLine("ItemID  Description           Price  QOH  Cost  Value");
+                                Console.WriteLine("------  --------------------  -----  ---  ----  -----");
 
-                    //        if (!fFound) // and if not found
-                    //        {
-                    //            Console.WriteLine("Item {0} not found", chgid);
-                    //        }
+                                for (int i = 0; i < icount; i++)
+                                {
+                                    Console.WriteLine("{0,6}  {1,-20} {2,7:C2}  {3,4}  {4,7:C2}  {5,7:C2}", itemdata[i].itemIDNo, itemdata[i].sDescription, itemdata[i].dblPricePerItem, itemdata[i].iQuantityOnHand, itemdata[i].dblOurCostPerItem, itemdata[i].dblValueOfItem);
+                                }
+                                Console.WriteLine(); // provide an extra blank line at end of for loop.
 
-                    //        break;
-                    //    } // End of case 2
+                                // Read the console to find out which item to update
+                                Console.Write("Please enter an Item ID No to change: ");
+                                string strchgid = Console.ReadLine();
+                                int chgid = int.Parse(strchgid);
+                                bool fChfound = false;
 
+                                // Search the inventory for the itemIDNo
+                                for (int x = 0; x < icount; x++)
+                                {
+                                    // If the itemIDNo is found display the add menu field for update
+                                    if (itemdata[x].itemIDNo == chgid)
+                                    {
+                                        fChfound = true;
 
+                                        // update the array record except for the itemIDNo
+                                        // show the console add screen but put the chgid in the itemIDNo field
+                                        Console.WriteLine("ID Number: {0} ", itemdata[x].itemIDNo);
+
+                                        // Description: screen input
+                                        Console.Write("Description:  ");
+                                        string chdesc = Console.ReadLine();
+                                        itemdata[x].sDescription = chdesc;
+
+                                        // Price per Item: screen input
+                                        Console.Write("Price per Item:  ");
+                                        string strprice = Console.ReadLine();
+                                        double dchprice = double.Parse(strprice);
+                                        itemdata[x].dblPricePerItem = dchprice;
+
+                                        // Quantity on Hand:
+                                        // Seems like I should calculate this, not ask the ask the user
+                                        Console.Write("Quantity on hand:  ");
+                                        string striquant = Console.ReadLine();
+                                        int ichquant = int.Parse(striquant);
+                                        itemdata[x].iQuantityOnHand = ichquant;
+
+                                        // Our Cost per Item: Calculate 50% of price
+                                        double dchcost = (dchprice * 0.5);
+                                        Console.Write("Our Cost per Item (50% of Price) = {0}\n", dchcost);
+                                        itemdata[x].dblOurCostPerItem = dchcost;
+
+                                        // Value of Item:
+                                        double dchvalue = (dchcost * ichquant);
+                                        Console.Write("Value of Item (Cost X Quantity on Hand) = {0}\n", dchvalue);
+                                        itemdata[x].dblValueOfItem = dchvalue;
+
+                                        Console.WriteLine(); // provide an extra blank line.
+
+                                        // Note - The count did not change
+                                        // I have read this would not actually change unless the stack was a class with referenced data
+
+                                        // Show the user the updated record with the update message
+                                        Console.WriteLine("The following Item {0} was updated in inventory\n", chgid);
+                                        Console.WriteLine("ItemID  Description           Price  QOH  Cost  Value");
+                                        Console.WriteLine("------  --------------------  -----  ---  ----  -----");
+
+                                            while (itemdata[x].itemIDNo == chgid)
+                                            {
+                                                Console.WriteLine("{0,6}  {1,-20} {2,7:C2}  {3,4}  {4,7:C2}  {5,7:C2}\n", itemdata[x].itemIDNo, itemdata[x].sDescription, itemdata[x].dblPricePerItem, itemdata[x].iQuantityOnHand, itemdata[x].dblOurCostPerItem, itemdata[x].dblValueOfItem);
+
+                                                break;
+                                            }
+                                    } // end of if (itemdata[x].itemIDNo == chgid) loop
+                                } //end of for (int x = 0; x < icount; x++)h loop                                    
+
+                                // If the itemIDNo is not found let the user know
+                                if (!fChfound)  // if not in the inventory
+                                {
+                                    Console.WriteLine("Item {0} was not found in inventory\n", chgid);
+                                }
+                            } //end of else if icount != 0 loop
+
+                            break;
+
+                        } // End of case 2
+
+                    /***********************************************/
+                    /***          case 3 Delete an item          ***/
+                    /***********************************************/
 
                     case 3: //delete items in the list if this option is selected
                         {
@@ -270,68 +418,10 @@ namespace ITFdnFinalProject
                                 {
                                     Console.WriteLine("{0,6}  {1,-20} {2,7:C2}  {3,4}  {4,7:C2}  {5,7:C2}", itemdata[i].itemIDNo, itemdata[i].sDescription, itemdata[i].dblPricePerItem, itemdata[i].iQuantityOnHand, itemdata[i].dblOurCostPerItem, itemdata[i].dblValueOfItem);
                                 }
-                                Console.WriteLine(); // provide an extra blank line at end of for loop.
+                                Console.WriteLine(); // provide an extra blank line
                             }
-                            // If the counter numberOfPets is not zero, the compiler drops to the for loop.
-                            // In the for loop, first the var variable index is initialized to 0;
-                            //     second, the conditional expression checks if the index value is less
-                            //     than the value of the counter numberOfPets; as long as this is true, 
-                            //     the compiler executes the for loop code block. 
-                            // After the code block writes a line to the console window, the index value is
-                            //     incremented and the conditional expression is compared to the new index value.
-                            // This repeats until the index value = numberOfPets, and the for loop ends.
-                            //for (var index = 0; index < numberOfPets; index++)
-                            //{
-                            ////    For each member of the array starting with the first index[0]
-                            ////         the Console writes a text line with the index number (increased by 1
-                            ////         for user readability), the field Name of the pet, and the field
-                            ////         Type of the pet in that indexed location(the actual index is minus 1
-                            ////         of the console index).
-                            ////     A new line starts for the contents of the next struct index location.
-
-                            //    Console.WriteLine("{0}. {1,-10} {2}", index + 1, pets[index].Name, pets[index].TypeOfPet);
-                            //}
-
-                            // The user selects a pet to delete by entering the pets list number from 
-                            //     the list they read on the console.
-
-                            //Console.Write("Which pet to remove (1-{0})", numberOfPets);
-                            //// A local variable petNumberToDelete is delared and intitialized from
-                            ////    the console text input.
-                            //var petNumberToDelete = Console.ReadLine();
-
-                            //// The text string petNumberToDelete is cast to an an integer type variable
-                            ////     with a Parse() method. The int variable identifier is indexToDelete.
-                            //var indexToDelete = int.Parse(petNumberToDelete);
-
-                            //// Squish the array from index to the end
-                            //// The variable indexToDelete - 1 (minus 1 to account for the displayed
-                            ////     number the user sees and enters), initializes the for loop which will
-                            ////     delete the pet.
-                            //// The loop's condtional expression checks to see if the index value is less than 
-                            ////     the number of pets. As long as the expression evaluates to True, the pet in
-                            ////     the next up index numbered location is copied into the current index number, 					effectively 
-                            ////     overwriting the deleted pets memory location.
-                            //// The for loop repeats, copying each member of a higher index number down one index
-                            //// The incrementer raises the index value by one so it matches the numberOfPets 				counter.
-                            //for (var index = indexToDelete - 1; index < numberOfPets; index++)
-                            //{
-                            //    // Just copy the pet from the next index up into the current index
-                            //    // Example: the pet in index[5] is selected to be deleted, the values of the pet in 
-                            //    //      index[6] are assigned to index[5], and the pet in index[5] is overwritten.
-
-                            //    pets[index] = pets[index + 1];
-                            //}
-
-                            //// We have one less pet
-                            //// The integer counter numberOfPets decrements by 1, because the count of indexs
-                            //// is now shorter by the one deleted pet.
-
-                            //numberOfPets--;
-
-
-
-                            Console.Write("Please enter an Item ID No to delete:");
+                            // Enter the item to delete
+                            Console.Write("Please enter an Item ID No to delete: ");
                             string strnewid = Console.ReadLine();
                             // This is a new ID because it is not saved in the array yet.
                             // Look for a matching itemIDNo to delete
@@ -340,9 +430,8 @@ namespace ITFdnFinalProject
 
                             for (int x = 0; x < icount; x++)
                             {
-
-                                // the name is a hint? - it gets or sets the element at the specified index property
                                 // I could not get this itemprop to work
+                                // the name is a hint? - it gets or sets the element at the specified index property
                                 // if (itemprop[x].itemIDNo == newid)
                                 if (itemdata[x].itemIDNo == newid)
                                 {
@@ -373,13 +462,15 @@ namespace ITFdnFinalProject
                             }
 
                             break;
+
                         } // End of case 3
+
+                    /***********************************************/
+                    /***          case 4 List all items          ***/
+                    /***********************************************/
 
                     case 4:  //list all items in current database if this option is selected
                         {
-                            //bool found = false;          // set a boolean flag
-                            //found = true;
-                            //{index[,alignment][:formatString]}
                             // first check if there are any items in the inventory
                             if (icount == 0)
                             {
@@ -393,6 +484,7 @@ namespace ITFdnFinalProject
 
                                 for (int i = 0; i < icount; i++)
                                 {
+                                    //{index[,alignment][:formatString]}
                                     // Add {4:C2}  {5:C2}", itemdata[i].dblOurCostPerItem, itemdata[i].dblValueOfItem);
                                     // Add {5:C2}", itemdata[i].dblValueOfItem);
 
@@ -404,34 +496,36 @@ namespace ITFdnFinalProject
                             break;
                         } // End of case 4
 
+                    /*************************************************/
+                    /***          case 5 Quit the program          ***/
+                    /*************************************************/
 
                     case 5: //quit the program if this option is selected
+                        {
+                            Console.Write("Are you sure that you want to quit (y/n)?: ");
+                            string strresp = Console.ReadLine();
+                            string optquit = strresp.ToUpper();
 
-                        //  Console.Write("Are you sure that you want to quit(y/n)?");
-                        //  string strresp = Console.ReadLine();
-                             //write an inner case?
-                        //
-                        //  if (strresp == "n" || strresp = "N") // code  if optx is 5 or not 5?
-                        //  {
-                        //      optx = 0;   // as long as it is not 5, the process is not breaking	
-                        //  }
+                            if (optquit == "N")   
+                            {
+                                optx = 0; //as long as it is not 5, the process is not breaking
+                                break;	
+                            }
+                            else
+                            {
+                                return;
+                            }
 
-                        //if (strresp == "y" || strresp = "Y") // code  if optx is 5 or not 5?
-                        //{
-                        //    optx = 5;   //if it is not 5, the process breaks - watch which loop
-                        //}
-                        break;
-                        } // End of case 5
+                        }  //End of case 5
 
+                    /***********************************************/
+                    /***               Default case              ***/
+                    /***********************************************/
 
                     default:
                         {
                             // works for integers
-                            // If the response from the console is anything other than an string/integer between 1 and 5
-                            // try a string value
-
-                            // Console.WriteLine("Invalid integer {0} or character {1} Option, try again", optx, strx);
-                            Console.Write("Invalid Option, try again");
+                            Console.Write("Invalid Option, try again! Please enter one number between 1 and 5.\n\n");
                             break;
                         } // End of case default
 
@@ -440,6 +534,8 @@ namespace ITFdnFinalProject
             } // End of While true loop
 
         } // End of Main method
+
     } // End of class MyInventory
+
 } // End of namespace
 
